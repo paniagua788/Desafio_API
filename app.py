@@ -6,6 +6,13 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+def validar_fecha(fecha):
+     # Retornamos mensajes en caso de que la fecha proporcionada este fuera del rango aceptado
+    if fecha > datetime.today():
+        raise ValueError("Fecha inválida: La fecha no puede ser posterior a la fecha actual")
+    elif fecha.year < 2013:
+        raise ValueError("Fecha inválida: Sólo se muestran los valores desde 2013 en adelante")
+
 @app.route('/uf', methods=['GET'])
 def obtener_UF():
     # Obtengo el parámetro fecha de la url
@@ -14,11 +21,8 @@ def obtener_UF():
     anio= fecha_dt.year
     dia= fecha_dt.day
     mes= fecha_dt.month
-    # Retornamos mensajes en caso de que la fecha proporcionada este fuera del rango aceptado
-    if fecha_dt > datetime.today():
-        raise ValueError("Fecha inválida: La fecha no puede ser posterior a la fecha actual")
-    elif fecha_dt.year < 2013:
-        raise ValueError("Fecha inválida: Sólo se muestran los valores desde 2013 en adelante")
+
+    validar_fecha(fecha_dt)
     
     # Hace un GET a la página de los valores UF y guardo la salida HTML en una variable 'r'
     r = requests.get(f"https://www.sii.cl/valores_y_fechas/uf/uf{anio}.htm")
@@ -41,6 +45,7 @@ def obtener_UF():
     # Creamos un diccionario con la fecha y su valor UF correspondiente, para luego convertirlo a JSON y retornar
     UF_info= {"Fecha": fecha, "Valor de UF" : valor_uf}
     return jsonify(UF_info)
+
 
 #Lanzamos la app Flask en el puerto 5000
 if __name__ == '__main__':
