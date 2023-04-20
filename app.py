@@ -16,10 +16,10 @@ def obtener_UF():
     mes= fecha_dt.month
     # Retornamos mensajes en caso de que la fecha proporcionada este fuera del rango aceptado
     if fecha_dt > datetime.today():
-        return "Fecha invalida"
+        raise ValueError("Fecha inválida: La fecha no puede ser posterior a la fecha actual")
     elif fecha_dt.year < 2013:
-        return "Sólo se muestran los valores desde 2013 en adelante"
-
+        raise ValueError("Fecha inválida: Sólo se muestran los valores desde 2013 en adelante")
+    
     # Hace un GET a la página de los valores UF y guardo la salida HTML en una variable 'r'
     r = requests.get(f"https://www.sii.cl/valores_y_fechas/uf/uf{anio}.htm")
 
