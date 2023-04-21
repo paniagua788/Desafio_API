@@ -8,21 +8,33 @@ app = Flask(__name__)
 
 def validar_fecha(fecha):
      # Retornamos mensajes en caso de que la fecha proporcionada este fuera del rango aceptado
-    if fecha > datetime.today():
-        raise ValueError("Fecha inválida: La fecha no puede ser posterior a la fecha actual")
-    elif fecha.year < 2013:
+    if fecha.year < 2013:
         raise ValueError("Fecha inválida: Sólo se muestran los valores desde 2013 en adelante")
+    elif fecha.year > datetime.today().year:
+        raise ValueError("Fecha inválida: No se muestran valores de años posteriores al actual.")
+
+def validar_valor(valor):
+    # En caso de que se consulte un valor que aun no esta cargado en la tabla
+    valor = valor.strip()
+    if not valor:
+        return "Valor aún no registrado"
+    else:
+        return valor
 
 @app.route('/uf', methods=['GET'])
 def obtener_UF():
     # Obtengo el parámetro fecha de la url
     fecha =request.args.get("fecha")
     fecha_dt= datetime.strptime(fecha, "%Y-%m-%d")
+    
+    # Llamamos a una funcion para validar la fecha antes de continuar
+    validar_fecha(fecha_dt)
+
     anio= fecha_dt.year
     dia= fecha_dt.day
     mes= fecha_dt.month
 
-    validar_fecha(fecha_dt)
+    
     
     # Hace un GET a la página de los valores UF y guardo la salida HTML en una variable 'r'
     r = requests.get(f"https://www.sii.cl/valores_y_fechas/uf/uf{anio}.htm")
@@ -40,7 +52,8 @@ def obtener_UF():
     celdas = fila_uf.find_all('td')
 
     #Encuentra el valor de UF específico en la fila
-    valor_uf = float(celdas[mes-1].get_text().replace('.', '').replace(',', '.'))
+    valor_uf = celdas[mes-1].get_text().replace('.', '').replace(',', '.')
+    valor_uf = validar_valor(valor_uf)
 
     # Creamos un diccionario con la fecha y su valor UF correspondiente, para luego convertirlo a JSON y retornar
     UF_info= {"Fecha": fecha, "Valor de UF" : valor_uf}
