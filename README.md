@@ -1,7 +1,7 @@
 # Desafio_Fapro
 Desafío: Creación de API para consultar la Unidad de Fomento en Python
 
-App funcionando localmente, en http://localhost:5000/uf?fecha=YYYY-mm-dd/
+App funcionando en http://15.228.49.45:5000/uf?fecha=2023-04-20 Utilizando la fecha 20/04/2023 como ejemplo. 
 
 Para probar la app (en linux):
   1. Clonar el repositorio.
