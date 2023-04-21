@@ -3,7 +3,7 @@ Desafío: Creación de API para consultar la Unidad de Fomento en Python
 
 App funcionando localmente, en http://localhost:5000/uf?fecha=YYYY-mm-dd/
 
-Para probar la app:
+Para probar la app (en linux):
   1. Clonar el repositorio.
   2. Activar el entorno virutal (source venv/bin/activate)
   3. Instalar las librerías (pip3 install -r requirements.txt)
