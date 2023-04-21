@@ -1,11 +1,12 @@
 # Desafio
 Desafío: Creación de API para consultar la Unidad de Fomento en Python
 
-App funcionando en http://15.228.49.45:5000/uf?fecha=2023-04-20 Utilizando la fecha 20/04/2023 como ejemplo. 
+App funcionando en http://15.228.49.45:5000/uf?fecha=2023-04-20 
+Parametro: el parametro "fecha" aceptado por la API debe ser en el formato YYYY-mm-dd.
 
-Para probar la app (en linux):
+Para probar la app:
   1. Clonar el repositorio.
-  2. Activar el entorno virutal (source venv/bin/activate)
+  2. Instalar y activar el entorno virutal (source venv/bin/activate)
   3. Instalar las librerías (pip3 install -r requirements.txt)
   4. Levantar la app (python3 app.py)
 
